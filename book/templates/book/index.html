@@ -6,6 +6,7 @@
    <title>Books</title>
 </head>
 <body>
+   <h2> Hi {{user}} </h2>
    <h1>Books</h1>
    <hr />
    <ul>
@@ -44,5 +45,7 @@
          <li>{{ loan.book }}</li>
       {% endfor  %}
    </ul>
+
+   <a href="{% url 'login:logout' %}" > logout </a>
 </body>
 </html>
