@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Books</title>
+</head>
+<body>
+   <h1>Books</h1>
+   <hr />
+   <ul>
+      {% for book in books  %}
+         <li>{{ book.title }}</li>
+      {% endfor  %}
+   </ul>
+	<h1>Available Books</h1>
+   <hr />
+   <ul>
+      {% for book in aBooks  %}
+         <li>{{ book.title }}</li>
+		<form action="{% url 'loanBook' %}" method="POST">
+			{% csrf_token %}
+			<input name="id" value={{book.id}} hidden />
+			<button>Book {{book.id}}</button>
+   		</form>
+      {% endfor  %}
+   </ul>
+   	<h1>Non Available Books</h1>
+   <hr />
+   <ul>
+      {% for book in bBooks  %}
+         <li>{{ book.title }}</li>
+		<form action="{% url 'returnBook' %}" method="POST">
+			{% csrf_token %}
+			<input name="id" value={{book.id}} hidden />
+			<button>Return {{book.id}}</button>
+   		</form>
+      {% endfor  %}
+   </ul>
+</body>
+</html>
