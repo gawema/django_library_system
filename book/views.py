@@ -36,7 +36,7 @@ def loanBook(request):
 		loan.save()
 
 
-	return HttpResponseRedirect(reverse('index'))
+	return HttpResponseRedirect(reverse('book:index'))
 
 def returnBook(request): 
 	if request.method == "POST":
@@ -49,4 +49,4 @@ def returnBook(request):
 		loan.delete()
 
 
-	return HttpResponseRedirect(reverse('index'))
+	return HttpResponseRedirect(reverse('book:index'))

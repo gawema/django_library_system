@@ -8,7 +8,10 @@ class Book(models.Model):
 		return self.title
 
 class Loan(models.Model):
-	book = models.ForeignKey(Book, on_delete=models.CASCADE, default='')
+	book = models.ForeignKey(Book, on_delete=models.CASCADE, default='', unique=True)
 	# customer = models.ForeignKey(User)
 	startDate = models.DateField()
 	endDate = models.DateField()
+
+	def __str__(self):
+		return self.book

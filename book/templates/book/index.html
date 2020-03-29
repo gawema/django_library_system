@@ -18,7 +18,7 @@
    <ul>
       {% for book in aBooks  %}
          <li>{{ book.title }}</li>
-		<form action="{% url 'loanBook' %}" method="POST">
+		<form action="{% url 'book:loanBook' %}" method="POST">
 			{% csrf_token %}
 			<input name="id" value={{book.id}} hidden />
 			<button>Book {{book.id}}</button>
@@ -30,7 +30,7 @@
    <ul>
       {% for book in bBooks  %}
          <li>{{ book.title }}</li>
-		<form action="{% url 'returnBook' %}" method="POST">
+		<form action="{% url 'book:returnBook' %}" method="POST">
 			{% csrf_token %}
 			<input name="id" value={{book.id}} hidden />
 			<button>Return {{book.id}}</button>
