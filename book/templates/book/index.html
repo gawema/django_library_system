@@ -25,7 +25,7 @@
    		</form>
       {% endfor  %}
    </ul>
-   	<h1>Non Available Books</h1>
+   <h1>Non Available Books</h1>
    <hr />
    <ul>
       {% for book in bBooks  %}
@@ -35,6 +35,13 @@
 			<input name="id" value={{book.id}} hidden />
 			<button>Return {{book.id}}</button>
    		</form>
+      {% endfor  %}
+   </ul>
+   <h1>Loans</h1>
+   <hr />
+   <ul>
+      {% for loan in loans  %}
+         <li>{{ loan.book }}</li>
       {% endfor  %}
    </ul>
 </body>

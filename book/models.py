@@ -6,3 +6,9 @@ class Book(models.Model):
 
 	def __str__(self):
 		return self.title
+
+class Loan(models.Model):
+	book = models.ForeignKey(Book, on_delete=models.CASCADE, default='')
+	# customer = models.ForeignKey(User)
+	startDate = models.DateField()
+	endDate = models.DateField()
