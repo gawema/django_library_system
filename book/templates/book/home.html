@@ -4,16 +4,16 @@
   <div class="album py-5 bg-light">
     <div class="container">
       <div class="row">
-      {% for book in aBooks  %}
+      {% for book in books  %}
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
             <div class="card-body">
               <h4 class="card-title">{{ book.title }}</h4>
-              <p class="card-text">Description</p>
+              <p class="card-text">Book</p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                  <form action="{% url 'book:loanBook' %}" method="POST">
+                  <form action="{% url 'book:requestBook' %}" method="POST">
                     {% csrf_token %}
                     <input name="id" value={{book.id}} hidden />
                     <button class="btn btn-sm btn-outline-secondary">Loan</button>
@@ -26,6 +26,30 @@
         </div>
       {% endfor  %}
       </div>
+      <div class="row">
+      {% for magazine in magazines  %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+            <div class="card-body">
+              <h4 class="card-title">{{ magazine.title }}</h4>
+              <p class="card-text">Magazine</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <form action="{% url 'book:requestMagazine' %}" method="POST">
+                    {% csrf_token %}
+                    <input name="id" value={{magazine.id}} hidden />
+                    <button class="btn btn-sm btn-outline-secondary">Loan</button>
+                  </form>
+                </div>
+                <small class="text-muted">Author</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor  %}
+      </div>
     </div>
+    
   </div>
 {% endblock %}

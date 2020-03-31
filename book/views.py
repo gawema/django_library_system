@@ -13,16 +13,13 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
-	books = Book.objects.all()
-	available_books = Book.objects.filter(booked=False)
-	non_available_books = Book.objects.filter(booked=True)
-	loans =  Loan.objects.all()
+	available_books = Book.objects.filter(booked=False, magazine=False)
+	available_magazines = Book.objects.filter(booked=False, magazine=True)
+
 	context = {
 		'user': request.user,
-		'books': books,
-		'aBooks': available_books,
-		'bBooks': non_available_books,
-		'loans': loans 
+		'books': available_books,
+		'magazines': available_magazines
 	}
 	return render(request, 'book/home.html', context)
 
@@ -37,7 +34,31 @@ def loans(request):
 
 
 @login_required
-def loanBook(request):
+def requestBook(request):
+	loans = Loan.objects.filter(customer = request.user)
+	bookCount = 0
+	for loan in loans:
+		if loan.book.magazine == False:
+			bookCount += 1
+	if bookCount >= 10:
+		return HttpResponseRedirect(reverse('book:home'))
+	return confirmLoan(request, 'book')
+
+
+@login_required
+def requestMagazine(request):
+	loans = Loan.objects.filter(customer = request.user)
+	magazineCount = 0
+	for loan in loans:
+		if loan.book.magazine == True:
+			magazineCount += 1
+	if magazineCount >= 3:
+		return HttpResponseRedirect(reverse('book:home'))
+	return confirmLoan(request, 'magazine')
+
+
+@login_required
+def confirmLoan(request, type):
 	if request.method == "POST":
 		id = request.POST["id"]
 		book = get_object_or_404(Book, pk=id)
@@ -48,9 +69,12 @@ def loanBook(request):
 		loan.customer = request.user
 		loan.book = book
 		loan.startDate = date.today()
-		loan.endDate = date.today()+ relativedelta(months=1)
+		if (type == 'magazine'):
+			loan.endDate = date.today() + relativedelta(days=7)
+		elif (type == 'book'):
+			loan.endDate = date.today() + relativedelta(months=1)
+		
 		loan.save()
-
 
 	return HttpResponseRedirect(reverse('book:home'))
 
