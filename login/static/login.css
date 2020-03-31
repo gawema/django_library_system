@@ -35,6 +35,9 @@ body {
 .form-signin input {
   margin-bottom: 10px;
 }
+.btn-margin {
+  margin-bottom: 5px;
+}
 
 .error {
 	padding-top: 5px;

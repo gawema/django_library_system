@@ -41,7 +41,7 @@
               <ul class="list-unstyled">
                 <li> <a href="{% url 'login:logout' %}" class="text-white"> logout </a> </li>
                 <li> <a href="#" class="text-white">Reset Password</a></li>
-                <li> <a href="#" class="text-white">Delete Account</a></li>
+                <li> <a href="{% url 'login:delete_account'%}" class="text-white">Delete Account</a></li>
               </ul>
             </div>
           </div>
@@ -62,10 +62,10 @@
     <main role="main">
       <section class="jumbotron text-center">
         <div class="container">
-          <h1>Library</h1>
+          <h1>Library System</h1>
           <p class="lead text-muted"></p>
           <p>
-            <a href="{% url 'book:loans' %}" class="btn btn-primary my-2">My Lons</a>
+            <a href="{% url 'book:loans' %}" class="btn btn-primary my-2">My Loans</a>
             <a href="{% url 'book:home' %}" class="btn btn-secondary my-2">All Books & Magazines</a>
           </p>
         </div>
