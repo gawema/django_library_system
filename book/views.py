@@ -26,21 +26,28 @@ def home(request):
 @login_required
 def loans(request):
 	loans =  Loan.objects.filter(customer = request.user)
+	today = date.today()
 	context = {
 		'user': request.user,
-		'loans': loans 
+		'loans': loans,
+		'today': today
 	}
 	return render(request, 'book/loans.html', context)
 
 
 @login_required
 def requestBook(request):
+	logger.error('HERE')
 	loans = Loan.objects.filter(customer = request.user)
 	bookCount = 0
+	outstandings = 0
 	for loan in loans:
 		if loan.book.magazine == False:
 			bookCount += 1
-	if bookCount >= 10:
+		if loan.endDate < date.today():
+			outstandings += 1
+	if bookCount >= 10 or outstandings >= 1:
+		logger.error("ciaooo")
 		return HttpResponseRedirect(reverse('book:home'))
 	return confirmLoan(request, 'book')
 
@@ -49,10 +56,14 @@ def requestBook(request):
 def requestMagazine(request):
 	loans = Loan.objects.filter(customer = request.user)
 	magazineCount = 0
+	outstandings = 0
+
 	for loan in loans:
 		if loan.book.magazine == True:
 			magazineCount += 1
-	if magazineCount >= 3:
+		if loan.endDate <= date.today():
+			outstandings += 1
+	if magazineCount >= 3 or outstandings >= 1:
 		return HttpResponseRedirect(reverse('book:home'))
 	return confirmLoan(request, 'magazine')
 

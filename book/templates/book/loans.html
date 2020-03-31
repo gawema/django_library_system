@@ -24,7 +24,11 @@
                     <button class="btn btn-sm btn-outline-secondary">Return</button>
                   </form>
                 </div>
+                {% if loan.endDate < today  %}
+                <small class="text-muted oustanding-loan">Expire date: {{loan.endDate}}</small>
+                {% else %}
                 <small class="text-muted">Expire date: {{loan.endDate}}</small>
+                {% endif %}
               </div>
             </div>
           </div>
