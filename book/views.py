@@ -12,7 +12,7 @@ from .models import Book, Loan
 logger = logging.getLogger(__name__)
 
 @login_required
-def index(request):
+def home(request):
 	books = Book.objects.all()
 	available_books = Book.objects.filter(booked=False)
 	non_available_books = Book.objects.filter(booked=True)
@@ -24,7 +24,17 @@ def index(request):
 		'bBooks': non_available_books,
 		'loans': loans 
 	}
-	return render(request, 'book/index.html', context)
+	return render(request, 'book/home.html', context)
+
+@login_required
+def loans(request):
+	loans =  Loan.objects.filter(customer = request.user)
+	context = {
+		'user': request.user,
+		'loans': loans 
+	}
+	return render(request, 'book/loans.html', context)
+
 
 @login_required
 def loanBook(request):
@@ -42,18 +52,17 @@ def loanBook(request):
 		loan.save()
 
 
-	return HttpResponseRedirect(reverse('book:index'))
+	return HttpResponseRedirect(reverse('book:home'))
 
 @login_required
 def returnBook(request): 
 	if request.method == "POST":
 		id = request.POST["id"]
-		book = get_object_or_404(Book, pk=id)
+		loan = get_object_or_404(Loan, pk=id)
+		bookId = loan.book.id;
+		book = get_object_or_404(Book, pk=bookId)
 		book.booked = False
 		book.save()
-
-		loan = get_object_or_404(Loan, book=book)
 		loan.delete()
 
-
-	return HttpResponseRedirect(reverse('book:index'))
+	return HttpResponseRedirect(reverse('book:loans'))
