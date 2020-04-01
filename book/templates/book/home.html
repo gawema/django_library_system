@@ -12,6 +12,11 @@
 			{% for reminder in reminders %}
 			<p class="oustanding-loan">{{reminder}}</p>
 			{% endfor %}
+			{% if messages %}
+				{% for message in messages %}
+				<p class="oustanding-loan">{{ message }}</p>
+				{% endfor %}
+			{% endif %}
 		</p>
 	</div>
 </section>

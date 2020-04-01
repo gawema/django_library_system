@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -58,6 +59,7 @@ def requestBook(request):
         if loan.endDate < date.today():
             outstandings += 1
     if bookCount >= 10 or outstandings >= 1:
+        messages.info(request, 'Sorry, you can not loan more books or magazine, return some!')
         return HttpResponseRedirect(reverse('book:home'))
     return confirmLoan(request, 'book')
 
@@ -74,6 +76,7 @@ def requestMagazine(request):
         if loan.endDate <= date.today():
             outstandings += 1
     if magazineCount >= 3 or outstandings >= 1:
+        messages.info(request, 'Sorry, you can not loan more books or magazine, return some!')
         return HttpResponseRedirect(reverse('book:home'))
     return confirmLoan(request, 'magazine')
 
