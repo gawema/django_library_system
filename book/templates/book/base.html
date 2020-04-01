@@ -39,9 +39,11 @@
             <div class="col-sm-4 offset-md-1 py-4">
               <h4 class="text-white">Contact</h4>
               <ul class="list-unstyled">
-                <li> <a href="{% url 'login:logout' %}" class="text-white"> logout </a> </li>
+                <li> <a href="{% url 'login:logout' %}" class="text-white"> Log out </a> </li>
+                {% if user.is_staff == False %}                
                 <li> <a href="#" class="text-white">Reset Password</a></li>
                 <li> <a href="{% url 'login:delete_account'%}" class="text-white">Delete Account</a></li>
+                {% endif %}
               </ul>
             </div>
           </div>
@@ -50,7 +52,7 @@
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
           <div class="navbar-brand d-flex align-items-center">
-            <strong>Logged-in as: {{user}}</strong>
+            <strong>Logged-in as: {{user}} {% if user.is_staff == True %} (STAFF){% endif %}</strong>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -60,16 +62,7 @@
     </header>
 
     <main role="main">
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1>Library System</h1>
-          <p class="lead text-muted"></p>
-          <p>
-            <a href="{% url 'book:loans' %}" class="btn btn-primary my-2">My Loans</a>
-            <a href="{% url 'book:home' %}" class="btn btn-secondary my-2">All Books & Magazines</a>
-          </p>
-        </div>
-      </section>
+
 	    {% block content %}
       {% endblock %}
     </main>

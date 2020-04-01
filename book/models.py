@@ -16,6 +16,7 @@ class Loan(models.Model):
 	customer = models.ForeignKey(User, on_delete=models.CASCADE, default='')
 	startDate = models.DateField()
 	endDate = models.DateField()
+	reminder = models.CharField(max_length=500, default='', null=True, blank=True)
 
 	def __str__(self):
 		return f"{self.book} - {self.customer}"

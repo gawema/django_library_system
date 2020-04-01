@@ -13,18 +13,29 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def home(request):
+	if request.user.is_staff == True:
+		return HttpResponseRedirect(reverse('book:allLoans'))
 	available_books = Book.objects.filter(booked=False, magazine=False)
 	available_magazines = Book.objects.filter(booked=False, magazine=True)
+	reminders = []
+	loans =  Loan.objects.filter(customer = request.user)
+	for loan in loans:
+		if loan.reminder is not None:
+			reminders.append(loan.reminder)
 
+	logger.error(reminders)
 	context = {
 		'user': request.user,
 		'books': available_books,
-		'magazines': available_magazines
+		'magazines': available_magazines,
+		'reminders': reminders
 	}
 	return render(request, 'book/home.html', context)
 
 @login_required
 def loans(request):
+	if request.user.is_staff == True:
+		return HttpResponseRedirect(reverse('book:allLoans'))
 	loans =  Loan.objects.filter(customer = request.user)
 	today = date.today()
 	context = {
@@ -101,3 +112,43 @@ def returnBook(request):
 		loan.delete()
 
 	return HttpResponseRedirect(reverse('book:loans'))
+
+
+@login_required
+def oustandingLoans(request):
+	if request.user.is_staff == False:
+		return HttpResponseRedirect(reverse('book:home'))
+	loans = Loan.objects.all()
+	oustanding_loans = []
+	for loan in loans:
+		if loan.endDate < date.today():
+			oustanding_loans.append(loan)
+	context = {
+		'user': request.user,
+		'loans': oustanding_loans,
+	}
+	return render(request, 'book/oustanding_loans.html', context)
+
+@login_required
+def allLoans(request):
+	if request.user.is_staff == False:
+		return HttpResponseRedirect(reverse('book:home'))
+	loans = Loan.objects.all()
+	request.user.is_staff
+	context = {
+		'user': request.user,
+		'loans': loans,
+	}
+	return render(request, 'book/all_loans.html', context)
+
+@login_required
+def sendReminder(request):
+	if request.user.is_staff == False:
+		return HttpResponseRedirect(reverse('book:home'))
+	if request.method == "POST":
+		id = request.POST["id"]
+		loan = get_object_or_404(Loan, pk=id)
+		loan.reminder = "Reminder: '"+loan.book.title+"' needs to be returned as soon as possible"
+		loan.save() 
+
+	return HttpResponseRedirect(reverse('book:oustandingLoans'))

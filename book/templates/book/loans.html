@@ -1,6 +1,18 @@
 {% extends "book/base.html" %}
 
 {% block content %}
+
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1>My current loans</h1>
+      <p class="lead text-muted"></p>
+      <p>
+        <a href="{% url 'book:loans' %}" class="btn btn-secondary my-2">My Loans</a>
+        <a href="{% url 'book:home' %}" class="btn btn-primary my-2">All Books & Magazines</a>
+      </p>
+    </div>
+  </section>
+
   <div class="album py-5 bg-light">
     <div class="container">
       <div class="row">

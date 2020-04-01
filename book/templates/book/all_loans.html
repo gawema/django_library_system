@@ -1,0 +1,31 @@
+
+{% extends "book/base.html" %}
+
+{% block content %}
+<main role="main" class="container">
+
+  <div class="my-5 p-5 bg-white rounded shadow-sm">
+    <h5 class="border-bottom border-gray pb-4 mb-0">Oustanding Loans</h5>
+	{% for loan in loans  %}
+    <div class="media text-muted pt-3">
+	{% if loan.book.magazine == False %}
+	<img class="bd-placeholder-img mr-3 rounded"  width="52px" height="52px" src="../../static/book-default.jpg" alt="thumbnail">
+	{% else %}
+    <img class="bd-placeholder-img mr-3 rounded"  width="52px" height="52px" src="../../static/magazine-default.jpg" alt="thumbnail">
+	{% endif %}
+      <div class="media-body pb-3 mb-0 medium lh-125 border-bottom border-gray">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <strong class="text-gray-dark">{{loan.book.title}}</strong>
+          <a href="/admin/book/loan/{{loan.id}}">Edit Loan</a>
+        </div>
+        <span class="d-block">@{{loan.customer}}</span>
+		<span class="d-block">{{loan.endDate}}</span>
+      </div>
+    </div>
+	{% endfor  %}
+    <small class="d-block text-right mt-4">
+      <a href="{% url 'book:oustandingLoans' %}" style='font-size: 12px'>Oustanding Loans</a>
+    </small>
+  </div>
+</main>
+{% endblock %}
