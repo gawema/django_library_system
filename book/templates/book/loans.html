@@ -2,56 +2,56 @@
 
 {% block content %}
 
-  <section class="jumbotron text-center">
-    <div class="container">
-      <h1>My current loans</h1>
-      <p class="lead text-muted"></p>
-      <p>
-        <a href="{% url 'book:loans' %}" class="btn btn-secondary my-2">My Loans</a>
-        <a href="{% url 'book:home' %}" class="btn btn-primary my-2">All Books & Magazines</a>
-      </p>
-    </div>
-  </section>
+<section class="jumbotron text-center">
+	<div class="container">
+		<h1>My current loans</h1>
+		<p class="lead text-muted"></p>
+		<p>
+			<a href="{% url 'book:loans' %}" class="btn btn-secondary my-2">My Loans</a>
+			<a href="{% url 'book:home' %}" class="btn btn-primary my-2">All Books & Magazines</a>
+		</p>
+	</div>
+</section>
 
-  <div class="album py-5 bg-light">
-    <div class="container">
-      <div class="row">
-      {% for loan in loans  %}
-        <div class="col-md-4">
-          <div class="card mb-4 shadow-sm">
-            {% if loan.book.magazine == False  %}
-            <img width="100%" src="../../static/book-default.jpg" alt="thumbnail">
-            {% endif %}
-            {% if loan.book.magazine == True  %}
-            <img width="100%" src="../../static/magazine-default.jpg" alt="thumbnail">
-            {% endif %}
-            <div class="card-body">
-              <h4 class="card-title">{{ loan.book }}</h4>
-              {% if loan.book.magazine == False  %}
-              <p class="card-text">Book</p>
-              {% endif %}
-              {% if loan.book.magazine == True  %}
-              <p class="card-text">Magazine</p>
-              {% endif %}
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <form action="{% url 'book:returnBook' %}" method="POST">
-                    {% csrf_token %}
-                    <input name="id" value={{loan.id}} hidden />
-                    <button class="btn btn-sm btn-outline-secondary">Return</button>
-                  </form>
-                </div>
-                {% if loan.endDate < today  %}
-                <small class="text-muted oustanding-loan">Expire date: {{loan.endDate}}</small>
-                {% else %}
-                <small class="text-muted">Expire date: {{loan.endDate}}</small>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-        </div>
-      {% endfor  %}
-      </div>
-    </div>
-  </div>
+<div class="album py-5 bg-light">
+	<div class="container">
+		<div class="row">
+			{% for loan in loans  %}
+			<div class="col-md-4">
+				<div class="card mb-4 shadow-sm">
+					{% if loan.book.magazine == False  %}
+					<img width="100%" src="../../static/book-default.jpg" alt="thumbnail">
+					{% endif %}
+					{% if loan.book.magazine == True  %}
+					<img width="100%" src="../../static/magazine-default.jpg" alt="thumbnail">
+					{% endif %}
+					<div class="card-body">
+						<h4 class="card-title">{{ loan.book }}</h4>
+						{% if loan.book.magazine == False  %}
+						<p class="card-text">Book</p>
+						{% endif %}
+						{% if loan.book.magazine == True  %}
+						<p class="card-text">Magazine</p>
+						{% endif %}
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="btn-group">
+								<form action="{% url 'book:returnBook' %}" method="POST">
+									{% csrf_token %}
+									<input name="id" value={{loan.id}} hidden />
+									<button class="btn btn-sm btn-outline-secondary">Return</button>
+								</form>
+							</div>
+							{% if loan.endDate < today  %}
+							<small class="text-muted oustanding-loan">Expire date: {{loan.endDate}}</small>
+							{% else %}
+							<small class="text-muted">Expire date: {{loan.endDate}}</small>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor  %}
+		</div>
+	</div>
+</div>
 {% endblock %}

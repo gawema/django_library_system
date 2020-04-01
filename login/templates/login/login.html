@@ -1,15 +1,15 @@
 {% extends "login/base.html" %}
 
 {% block content %}
-    <form action="{% url 'login:login' %}" method="POST" class="form-signin">
-    	{% csrf_token %}
-        <h1 class="h3 mb-3 font-weight-normal">Log in |<a href="{% url 'login:sign_up' %}"> Sign Up</a></h1>
-        <input type="text" name="user" class="form-control" placeholder="Username" required autofocus>
-        <input type="password" name="password" class="form-control" placeholder="Password" required>
-        <button class="btn btn-lg btn-primary btn-block btn-margin" type="submit">Log in</button>
-        <a href="{% url 'login:request_password_reset' %}">Forgotten Password?</a>
-        {% if error %}
-        <h6 class="error">{{ error }}</h6>
-        {% endif %}
-    </form>
+<form action="{% url 'login:login' %}" method="POST" class="form-signin">
+	{% csrf_token %}
+	<h1 class="h3 mb-3 font-weight-normal">Log in |<a href="{% url 'login:sign_up' %}"> Sign Up</a></h1>
+	<input type="text" name="user" class="form-control" placeholder="Username" required autofocus>
+	<input type="password" name="password" class="form-control" placeholder="Password" required>
+	<button class="btn btn-lg btn-primary btn-block btn-margin" type="submit">Log in</button>
+	<a href="{% url 'login:request_password_reset' %}">Forgotten Password?</a>
+	{% if error %}
+	<h6 class="error">{{ error }}</h6>
+	{% endif %}
+</form>
 {% endblock %}
