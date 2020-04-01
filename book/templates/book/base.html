@@ -44,7 +44,6 @@
 						<ul class="list-unstyled">
 							<li> <a href="{% url 'login:logout' %}" class="text-white"> Log out </a> </li>
 							{% if user.is_staff == False %}
-							<li> <a href="#" class="text-white">Reset Password</a></li>
 							<li> <a href="{% url 'login:delete_account'%}" class="text-white">Delete Account</a></li>
 							{% endif %}
 						</ul>
